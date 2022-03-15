@@ -22,7 +22,6 @@
     "eslint": "^8.11.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-react": "^7.29.3",
     "nodemon": "^2.0.15"
   },
   "dependencies": {
