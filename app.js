@@ -28,7 +28,7 @@ app.post(
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().email().required(),
-      password: Joi.string().min(5).required(),
+      password: Joi.string().required(),
     }),
   }),
   login,
@@ -44,7 +44,7 @@ app.post(
         /^https?:\/\/(www.)?[a-zA-Z0-9-.]+\.[a-zA-Z]{2,}([a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]+)*#*$/,
       ),
       email: Joi.string().email().required(),
-      password: Joi.string().min(5).required(),
+      password: Joi.string().required(),
     }),
   }),
   createUser,

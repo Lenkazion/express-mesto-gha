@@ -19,8 +19,9 @@ module.exports.createCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Ошибка валидации.'));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 
@@ -38,10 +39,9 @@ module.exports.deleteCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Переданы некорректные данные при удалении карточки.'));
-      } else if (err.message === 'NotFound') {
-        next(new NotFoundError('Пользовател или карточка с переданным ID не найден.'));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 
@@ -56,10 +56,9 @@ module.exports.likeCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Переданы некорректные данные при добавлении лайка.'));
-      } else if (err.message === 'NotFound') {
-        next(new NotFoundError('Пользовател или карточка с переданным ID не найден.'));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 
@@ -74,9 +73,8 @@ module.exports.dislikeCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Переданы некорректные данные для снятия лайка.'));
-      } else if (err.message === 'NotFound') {
-        next(new NotFoundError('Пользовател или карточка с переданным ID не найден.'));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };

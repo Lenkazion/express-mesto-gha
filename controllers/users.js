@@ -14,30 +14,28 @@ module.exports.getUsers = (req, res, next) => {
 
 module.exports.getUser = (req, res, next) => {
   User.findById(req.params.id)
-    .orFail(() => {
-      throw new Error('NotFound');
-    })
+    .orFail(() => new NotFoundError('Пользователь с указанным ID не существует.'))
     .then((user) => { res.status(200).send({ user }); })
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Некорректный ID.'));
       } else if (err.message === 'NotFound') {
         next(new NotFoundError('Пользовател или карточка с переданным ID не найден.'));
+      } else {
+        next(err);
       }
     });
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
-    .orFail(() => {
-      throw new Error('NotFound');
-    })
+    .orFail(() => new NotFoundError('Пользователь с указанным ID не существует.'))
     .then((user) => { res.status(200).send({ user }); })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Некорректный ID.'));
-      } else if (err.message === 'NotFound') {
+      if (err.message === 'NotFound') {
         next(new NotFoundError('Пользовател или карточка с переданным ID не найден.'));
+      } else {
+        next(err);
       }
     });
 };
@@ -60,6 +58,8 @@ module.exports.createUser = (req, res, next) => {
         next(new BadRequestError('Ошибка валидации.'));
       } else if (err.code === 11000) {
         next(new ConflictError('Пользователь с таким email уже существует.'));
+      } else {
+        next(err);
       }
     });
 };
@@ -75,6 +75,8 @@ module.exports.updateUser = (req, res, next) => {
     .catch((err) => {
       if ((err.name === 'CastError') || (err.name === 'ValidationError')) {
         next(new BadRequestError('Ошибка валидации.'));
+      } else {
+        next(err);
       }
     });
 };
@@ -90,6 +92,8 @@ module.exports.updateAvatar = (req, res, next) => {
     .catch((err) => {
       if ((err.name === 'CastError') || (err.name === 'ValidationError')) {
         next(new BadRequestError('Ошибка валидации.'));
+      } else {
+        next(err);
       }
     });
 };
